@@ -52,7 +52,8 @@ const shipments: Shipment[] = [
 ];
 
 export const shipmentsRoutes = new Hono()
-  .get("/", (c) => {
+  .get("/", async (c) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return c.json(shipments);
   })
   .get("/:id{\\d+}", (c) => {
