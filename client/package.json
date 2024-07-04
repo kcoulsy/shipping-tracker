@@ -11,14 +11,18 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.49.2",
+    "@tanstack/react-router": "^1.43.10",
     "autoprefixer": "^10.4.19",
     "hono": "^4.4.11",
     "postcss": "^8.4.39",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.4",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
+    "@tanstack/router-devtools": "^1.43.10",
+    "@tanstack/router-plugin": "^1.43.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",

@@ -1,11 +1,12 @@
-import { useEffect } from "react";
-import { type AppType } from "@server/api/index";
-import { hc } from "hono/client";
+import { client } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 
-const client = hc<AppType>("http://localhost:5173/api");
+export const Route = createFileRoute("/shipments")({
+  component: Shipments,
+});
 
-function App() {
+function Shipments() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["shipments"],
     queryFn: async () =>
@@ -31,5 +32,3 @@ function App() {
     </>
   );
 }
-
-export default App;
