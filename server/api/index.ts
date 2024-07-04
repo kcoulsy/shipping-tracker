@@ -1,8 +1,6 @@
 import { Hono } from "hono";
-import v1 from "./v1";
+import { v1Routes } from "./v1";
 
-const app = new Hono();
+export const apiRoutes = new Hono().route("/v1", v1Routes);
 
-app.route("/v1", v1);
-
-export default app;
+export type AppType = typeof apiRoutes;

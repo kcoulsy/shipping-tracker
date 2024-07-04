@@ -1,8 +1,7 @@
 import { Hono } from "hono";
-import api from "./api";
+import { apiRoutes } from "./api";
 
 const app = new Hono();
-
-app.route("/api", api);
+app.route("/api", apiRoutes);
 
 export default app;

@@ -51,9 +51,7 @@ const shipments: Shipment[] = [
   },
 ];
 
-const app = new Hono();
-
-app
+export const shipmentsRoutes = new Hono()
   .get("/", (c) => {
     return c.json(shipments);
   })
@@ -106,5 +104,3 @@ app
 
     return c.json({ id });
   });
-
-export default app;

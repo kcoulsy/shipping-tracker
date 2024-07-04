@@ -1,8 +1,4 @@
 import { Hono } from "hono";
-import shipments from "./shipments";
+import { shipmentsRoutes } from "./shipments";
 
-const app = new Hono();
-
-app.route("/shipments", shipments);
-
-export default app;
+export const v1Routes = new Hono().route("/shipments", shipmentsRoutes);
