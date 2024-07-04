@@ -1,8 +1,28 @@
+import { SignIn } from "@/components/sign-in";
+import { SignOut } from "@/components/sign-out";
+import { useLogto } from "@logto/react";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { useEffect, useState } from "react";
 
 export const Route = createRootRoute({
-  component: () => (
+  component: Root,
+});
+
+function Root() {
+  const { isAuthenticated, getIdTokenClaims } = useLogto();
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      if (isAuthenticated) {
+        const claims = await getIdTokenClaims();
+        setUserId(claims?.sub ?? "");
+      }
+    })();
+  }, [isAuthenticated, getIdTokenClaims]);
+
+  return (
     <>
       <div className="p-2 flex gap-2">
         <Link to="/" className="[&.active]:font-bold">
@@ -16,8 +36,10 @@ export const Route = createRootRoute({
         </Link>
       </div>
       <hr />
+      {userId && <p>Logged in as {userId}</p>}
+      {isAuthenticated ? <SignOut /> : <SignIn />}
       <Outlet />
       <TanStackRouterDevtools />
     </>
-  ),
-});
+  );
+}
