@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import api from "./api";
+import shipments from "./shipments";
 
 const app = new Hono();
 
-app.route("/api", api);
+app.route("/shipments", shipments);
 
 export default app;
