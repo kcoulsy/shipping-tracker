@@ -57,6 +57,16 @@ app
   .get("/", (c) => {
     return c.json(shipments);
   })
+  .get("/:id{\\d+}", (c) => {
+    const id = parseInt(c.req.param("id"));
+    const shipment = shipments.find((s) => s.id === id);
+
+    if (!shipment) {
+      return c.notFound();
+    }
+
+    return c.json(shipment);
+  })
   .post(
     "/",
     zValidator(
@@ -71,6 +81,30 @@ app
       shipments.push({ ...shipment, id });
       return c.json({ id });
     }
-  );
+  )
+  .put("/", zValidator("json", shipmentSchema), (c) => {
+    const shipment = c.req.valid("json");
+    const index = shipments.findIndex((s) => s.id === shipment.id);
+
+    if (index === -1) {
+      return c.notFound();
+    }
+
+    shipments[index] = shipment;
+
+    return c.json({ shipment });
+  })
+  .delete("/:id{\\d+}", (c) => {
+    const id = parseInt(c.req.param("id"));
+    const index = shipments.findIndex((s) => s.id === id);
+
+    if (index === -1) {
+      return c.notFound();
+    }
+
+    shipments.splice(index, 1);
+
+    return c.json({ id });
+  });
 
 export default app;

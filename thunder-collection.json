@@ -1,0 +1,81 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Shipment Tracker",
+    "collectionId": "81cfa4cb-7d84-4bf3-87eb-b0fa5c068f4a",
+    "dateExported": "2024-07-04T06:51:46.468Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "2ef7a4ea-be0c-4af2-8cc7-79f2af3ac344",
+            "colId": "81cfa4cb-7d84-4bf3-87eb-b0fa5c068f4a",
+            "containerId": "",
+            "name": "GET shipments",
+            "url": "http://localhost:3000/api/v1/shipments",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-07-04T06:40:43.214Z",
+            "modified": "2024-07-04T06:40:47.898Z",
+            "headers": []
+        },
+        {
+            "_id": "970feb92-41ce-4e90-9f84-8a7352516dad",
+            "colId": "81cfa4cb-7d84-4bf3-87eb-b0fa5c068f4a",
+            "containerId": "",
+            "name": "POST shipment",
+            "url": "http://localhost:3000/api/v1/shipments",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-07-04T06:40:58.898Z",
+            "modified": "2024-07-04T06:45:22.808Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"contents\": \"Books\",\n    \"dateShipped\": \"2024-07-04T06:45:11.289Z\",\n    \"status\": \"shipped\",\n    \"name\": \"John Doe\",\n    \"addressLine1\": \"123 Fake St\",\n    \"addressLine2\": \"\",\n    \"city\": \"Springfield\",\n    \"postcode\": \"12345\",\n    \"courier\": \"Royal Mail\",\n    \"trackingNumber\": \"ABC123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "a4390bc2-d220-4fc9-87cc-e3e4ccdd5d12",
+            "colId": "81cfa4cb-7d84-4bf3-87eb-b0fa5c068f4a",
+            "containerId": "",
+            "name": "GET shipments id",
+            "url": "http://localhost:3000/api/v1/shipments/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-07-04T06:48:13.831Z",
+            "modified": "2024-07-04T06:48:30.038Z",
+            "headers": []
+        },
+        {
+            "_id": "29bef3c3-8f10-40ac-bd1d-5d93b9d597cf",
+            "colId": "81cfa4cb-7d84-4bf3-87eb-b0fa5c068f4a",
+            "containerId": "",
+            "name": "PUT shipment",
+            "url": "http://localhost:3000/api/v1/shipments",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2024-07-04T06:49:44.864Z",
+            "modified": "2024-07-04T06:50:27.068Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"id\": 3,\n    \"contents\": \"Books and Stuff\",\n    \"dateShipped\": \"2024-07-04T06:45:11.289Z\",\n    \"status\": \"shipped\",\n    \"name\": \"John Doe\",\n    \"addressLine1\": \"123 Fake St\",\n    \"addressLine2\": \"\",\n    \"city\": \"Springfield\",\n    \"postcode\": \"12345\",\n    \"courier\": \"Royal Mail\",\n    \"trackingNumber\": \"ABC123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "5f30e141-bc69-4f83-9314-1fef6e54c590",
+            "colId": "81cfa4cb-7d84-4bf3-87eb-b0fa5c068f4a",
+            "containerId": "",
+            "name": "GET shipments id",
+            "url": "http://localhost:3000/api/v1/shipments/2",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2024-07-04T06:51:02.037Z",
+            "modified": "2024-07-04T06:51:14.528Z",
+            "headers": []
+        }
+    ],
+    "ref": "PZSry-rWU1wbAEqUuMecAm4JgjyDdh0gFX02hAUFZ1-5cjNDRu3v4Mx-k9xsliZjK_R51sqsJwV4wGiw3w39Kw"
+}
