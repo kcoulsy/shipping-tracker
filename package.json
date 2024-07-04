@@ -2,6 +2,12 @@
   "name": "shipment-tracker",
   "module": "server/index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun run --hot server/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.4.11"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
