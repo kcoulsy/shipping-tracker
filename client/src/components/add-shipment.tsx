@@ -16,8 +16,19 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 export function AddShipment() {
+  const [date, setDate] = useState<Date>();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -40,7 +51,28 @@ export function AddShipment() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="date">Date Shipped</Label>
-                <Input id="date" type="date" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "flexw-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
@@ -51,6 +83,7 @@ export function AddShipment() {
                   <SelectContent>
                     <SelectItem value="not-shipped">Not Shipped</SelectItem>
                     <SelectItem value="shipped">Shipped</SelectItem>
+                    <SelectItem value="in-transit">In Transit</SelectItem>
                     <SelectItem value="delivered">Delivered</SelectItem>
                   </SelectContent>
                 </Select>
