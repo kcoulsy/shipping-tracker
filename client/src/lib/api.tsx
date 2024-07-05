@@ -31,7 +31,7 @@ export function useGetShipment(id?: string) {
   console.log(id);
   return useQuery({
     queryKey: ["shipment", id],
-    enabled: !!accessToken && id !== undefined,
+    enabled: id !== undefined,
     retry: false,
     queryFn: async () =>
       client.v1.shipments[":id{\\d+}"]

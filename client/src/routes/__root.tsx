@@ -32,9 +32,11 @@ function Root() {
         <Link to="/track" className="[&.active]:font-bold">
           Track
         </Link>
-        <Link to="/shipments" className="[&.active]:font-bold">
-          Shipments
-        </Link>
+        {isAuthenticated && (
+          <Link to="/shipments" className="[&.active]:font-bold">
+            Shipments
+          </Link>
+        )}
         <div className="flex-1"></div>
         {userId && <p>Logged in as {userId}</p>}
         {isAuthenticated ? <SignOut /> : <SignIn />}
