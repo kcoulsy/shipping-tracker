@@ -23,6 +23,7 @@ const queryClient = new QueryClient();
 const config: LogtoConfig = {
   endpoint: "https://auth.coulsy.dev/",
   appId: "rlwfencn9fku75g2k5ozp",
+  resources: ["http://localhost:3000"],
 };
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

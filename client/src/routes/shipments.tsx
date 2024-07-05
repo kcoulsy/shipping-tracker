@@ -1,5 +1,4 @@
-import { client } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useGetShipments } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/shipments")({
@@ -7,11 +6,7 @@ export const Route = createFileRoute("/shipments")({
 });
 
 function Shipments() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["shipments"],
-    queryFn: async () =>
-      client.v1.shipments.$get().then((response) => response.json()),
-  });
+  const { data, isLoading, error } = useGetShipments();
 
   if (isLoading || !data) {
     return <div>Loading...</div>;

@@ -1,6 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
+import { requireAuth, type AuthedRoutes } from "../../middleware/auth";
 
 const shipmentSchema = z.object({
   id: z.number(),
@@ -51,8 +52,10 @@ const shipments: Shipment[] = [
   },
 ];
 
-export const shipmentsRoutes = new Hono()
+export const shipmentsRoutes = new Hono<AuthedRoutes>()
+  .use(requireAuth)
   .get("/", async (c) => {
+    console.log(c.get("user"));
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return c.json(shipments);
   })
