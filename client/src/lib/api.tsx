@@ -24,3 +24,29 @@ export function useGetShipments() {
         .then((response) => response.json()),
   });
 }
+
+export function useGetShipment(id?: string) {
+  const { data: accessToken } = useAccessToken();
+
+  console.log(id);
+  return useQuery({
+    queryKey: ["shipment", id],
+    enabled: !!accessToken && id !== undefined,
+    retry: false,
+    queryFn: async () =>
+      client.v1.shipments[":id{\\d+}"]
+        .$get(
+          {
+            param: {
+              id: `${id}`,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => response.json()),
+  });
+}

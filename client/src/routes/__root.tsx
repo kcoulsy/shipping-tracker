@@ -29,16 +29,17 @@ function Root() {
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>{" "}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
+        <Link to="/track" className="[&.active]:font-bold">
+          Track
         </Link>
         <Link to="/shipments" className="[&.active]:font-bold">
           Shipments
         </Link>
+        <div className="flex-1"></div>
+        {userId && <p>Logged in as {userId}</p>}
+        {isAuthenticated ? <SignOut /> : <SignIn />}
       </div>
       <hr />
-      {userId && <p>Logged in as {userId}</p>}
-      {isAuthenticated ? <SignOut /> : <SignIn />}
       <Outlet />
       <TanStackRouterDevtools />
     </ThemeProvider>

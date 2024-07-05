@@ -10,6 +10,7 @@ const shipmentSchema = z.object({
   status: z.union([
     z.literal("not-shipped"),
     z.literal("shipped"),
+    z.literal("in-transit"),
     z.literal("delivered"),
   ]),
   name: z.string(),
@@ -21,7 +22,7 @@ const shipmentSchema = z.object({
   trackingNumber: z.string(),
 });
 
-type Shipment = z.infer<typeof shipmentSchema>;
+export type Shipment = z.infer<typeof shipmentSchema>;
 
 const shipments: Shipment[] = [
   {
@@ -59,7 +60,8 @@ export const shipmentsRoutes = new Hono<AuthedRoutes>()
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return c.json(shipments);
   })
-  .get("/:id{\\d+}", (c) => {
+  .get("/:id{\\d+}", async (c) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const id = parseInt(c.req.param("id"));
     const shipment = shipments.find((s) => s.id === id);
 

@@ -11,12 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TrackImport } from './routes/track'
 import { Route as ShipmentsImport } from './routes/shipments'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthCallbackImport } from './routes/auth/callback'
 
 // Create/Update Routes
+
+const TrackRoute = TrackImport.update({
+  path: '/track',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const ShipmentsRoute = ShipmentsImport.update({
   path: '/shipments',
@@ -63,6 +69,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShipmentsImport
       parentRoute: typeof rootRoute
     }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/callback': {
       id: '/auth/callback'
       path: '/auth/callback'
@@ -79,6 +92,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AboutRoute,
   ShipmentsRoute,
+  TrackRoute,
   AuthCallbackRoute,
 })
 
@@ -93,6 +107,7 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/about",
         "/shipments",
+        "/track",
         "/auth/callback"
       ]
     },
@@ -104,6 +119,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/shipments": {
       "filePath": "shipments.tsx"
+    },
+    "/track": {
+      "filePath": "track.tsx"
     },
     "/auth/callback": {
       "filePath": "auth/callback.tsx"
