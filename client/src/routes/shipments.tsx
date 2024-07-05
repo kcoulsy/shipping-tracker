@@ -26,6 +26,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { AddShipment } from "@/components/add-shipment";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/shipments")({
   component: Shipments,
@@ -34,19 +36,18 @@ export const Route = createFileRoute("/shipments")({
 function Shipments() {
   const { data, isLoading, error } = useGetShipments();
 
-  if (isLoading || !data) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 container mx-auto">
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>Shipments</CardTitle>
+          <CardTitle className="flex justify-between">
+            <span>Shipments</span>
+            <AddShipment />
+          </CardTitle>
           <CardDescription>All shipments</CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,7 +63,30 @@ function Shipments() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((shipment) => (
+              {isLoading &&
+                new Array(5).fill(null).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Skeleton className="w-full h-[20px] rounded-full" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="w-full h-[20px] rounded-full" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="w-full h-[20px] rounded-full" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="w-full h-[20px] rounded-full" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="w-full h-[20px] rounded-full" />
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Skeleton className="w-full h-[20px] rounded-full" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              {data?.map((shipment) => (
                 <TableRow key={shipment.id}>
                   <TableCell className="font-medium">{shipment.id}</TableCell>
                   <TableCell>{shipment.contents}</TableCell>

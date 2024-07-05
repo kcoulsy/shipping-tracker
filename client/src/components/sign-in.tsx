@@ -9,7 +9,7 @@ export function SignIn() {
 
   return (
     <button onClick={() => signIn("http://localhost:5173/auth/callback")}>
-      Sign In
+      Courier Sign In
     </button>
   );
 }

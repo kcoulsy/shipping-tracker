@@ -1,4 +1,7 @@
-import { AddShipment } from "@/components/add-shipment";
+import { HomepageFooter } from "@/components/homepage/footer";
+import { HomepageHero } from "@/components/homepage/hero";
+import { HomepageSolutions } from "@/components/homepage/solutions";
+import { HomepageTestamonials } from "@/components/homepage/testamonials";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -8,7 +11,10 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="p-2">
-      <AddShipment />
+      <HomepageHero />
+      <HomepageSolutions />
+      <HomepageTestamonials />
+      <HomepageFooter />
     </div>
   );
 }

@@ -25,9 +25,9 @@ function Root() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
+      <div className="p-2 flex gap-2 container mx-auto py-4 items-center">
+        <Link to="/" className="font-bold italic text-2xl mr-4">
+          Shippy
         </Link>{" "}
         <Link to="/track" className="[&.active]:font-bold">
           Track
