@@ -8,7 +8,7 @@ export function ShipmentStatusSkeleton() {
         <CardTitle>Order Status</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-2">
+        <div className="grid gap-4">
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Carrier:</span>
 
@@ -31,7 +31,7 @@ export function ShipmentStatusSkeleton() {
             </span>
           </div>
         </div>
-        <Skeleton className="w-full mt-4 h-[14px] rounded-full" />
+        <Skeleton className="w-full my-4 h-[14px] rounded-full" />
       </CardContent>
     </Card>
   );

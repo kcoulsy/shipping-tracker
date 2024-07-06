@@ -1,7 +1,7 @@
 import { Shipment } from "@server/api/v1/shipments";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { capitalize } from "@/lib/utils";
+import { StatusBadge } from "../shipments/status-badge";
 
 export function ShipmentStatus({ shipment }: { shipment: Shipment }) {
   let progressValue = 0;
@@ -27,7 +27,7 @@ export function ShipmentStatus({ shipment }: { shipment: Shipment }) {
         <CardTitle>Order Status</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-2">
+        <div className="grid gap-4">
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Carrier:</span>
             <span>{shipment.courier}</span>
@@ -43,11 +43,11 @@ export function ShipmentStatus({ shipment }: { shipment: Shipment }) {
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Status:</span>
             <span className="text-green-600 font-medium">
-              {capitalize(shipment.status.split("-").join(" "))}
+              <StatusBadge status={shipment.status} />
             </span>
           </div>
         </div>
-        <Progress value={progressValue} className="w-full bg-secondary mt-4" />
+        <Progress value={progressValue} className="w-full bg-secondary my-4" />
       </CardContent>
     </Card>
   );
