@@ -21,10 +21,12 @@ declare module "@tanstack/react-router" {
 const queryClient = new QueryClient();
 
 const config: LogtoConfig = {
-  endpoint: "https://auth.coulsy.dev/",
-  appId: "rlwfencn9fku75g2k5ozp",
-  resources: ["http://localhost:3000"],
+  endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,
+  appId: import.meta.env.VITE_LOGTO_APPID,
+  resources: [import.meta.env.VITE_API_BASE_URL],
 };
+
+console.log(import.meta.env);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

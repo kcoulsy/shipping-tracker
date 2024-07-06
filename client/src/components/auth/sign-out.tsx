@@ -4,6 +4,8 @@ export function SignOut() {
   const { signOut } = useLogto();
 
   return (
-    <button onClick={() => signOut("http://localhost:5173")}>Sign out</button>
+    <button onClick={() => signOut(`${import.meta.env.VITE_BASE_URL}`)}>
+      Sign out
+    </button>
   );
 }

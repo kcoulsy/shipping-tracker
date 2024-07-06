@@ -11,7 +11,7 @@ export function useAccessToken() {
         return null;
       }
 
-      return getAccessToken("http://localhost:3000");
+      return getAccessToken(import.meta.env.VITE_API_BASE_URL);
     },
   });
 }

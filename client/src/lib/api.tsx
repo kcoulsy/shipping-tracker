@@ -2,9 +2,9 @@ import { type AppType } from "@server/api/index";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { hc } from "hono/client";
 import { useAccessToken } from "./auth";
-import { InsertShipment, Shipment } from "@server/api/v1/shipments";
+import { InsertShipment, Shipment } from "@server/schemas/shipment";
 
-export const client = hc<AppType>("http://localhost:5173/api");
+export const client = hc<AppType>("/api");
 
 export function useGetShipments() {
   const { data: accessToken } = useAccessToken();
@@ -47,7 +47,8 @@ export function useGetShipment(id?: string) {
             },
           }
         )
-        .then((response) => response.json()),
+        // Typing seems to be an issue possibly due to the route params, response is unknown.
+        .then((response) => response.json() as Promise<Shipment | undefined>),
   });
 }
 

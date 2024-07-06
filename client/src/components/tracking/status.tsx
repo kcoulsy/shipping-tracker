@@ -1,4 +1,4 @@
-import { Shipment } from "@server/api/v1/shipments";
+import { Shipment } from "@server/schemas/shipment";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { StatusBadge } from "../shipments/status-badge";

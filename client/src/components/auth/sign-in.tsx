@@ -8,7 +8,9 @@ export function SignIn() {
   }
 
   return (
-    <button onClick={() => signIn("http://localhost:5173/auth/callback")}>
+    <button
+      onClick={() => signIn(`${import.meta.env.VITE_BASE_URL}/auth/callback"`)}
+    >
       Courier Sign In
     </button>
   );

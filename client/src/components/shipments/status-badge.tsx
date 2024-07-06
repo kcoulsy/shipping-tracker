@@ -1,4 +1,4 @@
-import { Shipment } from "@server/api/v1/shipments";
+import { Shipment } from "@server/schemas/shipment";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 

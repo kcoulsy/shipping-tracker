@@ -52,7 +52,6 @@ function TrackPage() {
         <div className="mt-12 space-y-6">
           {!isLoading && !shipment && <ShipmentStatusNotFound />}
           {isLoading ? <ShipmentStatusSkeleton /> : null}
-          {/* @ts-expect-error - TODO fix response type */}
           {shipment ? <ShipmentStatus shipment={shipment} /> : null}
         </div>
       ) : null}
