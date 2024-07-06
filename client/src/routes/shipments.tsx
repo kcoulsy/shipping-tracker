@@ -26,7 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { AddShipment } from "@/components/add-shipment";
+import { AddShipment } from "@/components/shipments/add-shipment";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/shipments")({

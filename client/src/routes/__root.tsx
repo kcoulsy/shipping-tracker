@@ -1,5 +1,5 @@
-import { SignIn } from "@/components/sign-in";
-import { SignOut } from "@/components/sign-out";
+import { SignIn } from "@/components/auth/sign-in";
+import { SignOut } from "@/components/auth/sign-out";
 import { ThemeProvider } from "@/components/theme";
 import { useLogto } from "@logto/react";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
