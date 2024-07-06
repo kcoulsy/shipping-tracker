@@ -3,17 +3,24 @@
   "module": "server/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --hot server/index.ts"
+    "dev": "bun run --hot server/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",
     "@tanstack/react-query": "^5.49.2",
+    "drizzle-orm": "^0.31.2",
     "hono": "^4.4.11",
     "jose": "^5.6.3",
+    "pg": "^8.12.0",
+    "postgres": "^3.4.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "drizzle-kit": "^0.22.8"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

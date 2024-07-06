@@ -1,64 +1,19 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { z } from "zod";
 import { requireAuth, type AuthedRoutes } from "../../middleware/auth";
-
-const shipmentSchema = z.object({
-  id: z.number(),
-  contents: z.string().min(1, "Required"),
-  dateShipped: z.string().min(1, "Required"),
-  status: z.union([
-    z.literal("not-shipped"),
-    z.literal("shipped"),
-    z.literal("in-transit"),
-    z.literal("delivered"),
-  ]),
-  name: z.string().min(1, "Required"),
-  addressLine1: z.string().min(1, "Required"),
-  addressLine2: z.string().min(1, "Required"),
-  city: z.string().min(1, "Required"),
-  postcode: z.string().min(1, "Required"),
-  courier: z.string().min(1, "Required"),
-});
-
-export const insertShipmentSchema = shipmentSchema.omit({
-  id: true,
-});
-export type InsertShipment = z.infer<typeof insertShipmentSchema>;
-export type Shipment = z.infer<typeof shipmentSchema>;
-
-const shipments: Shipment[] = [
-  {
-    id: 1,
-    contents: "Books",
-    dateShipped: new Date().toISOString(),
-    status: "shipped",
-    name: "John Doe",
-    addressLine1: "123 Fake St",
-    addressLine2: "",
-    city: "Springfield",
-    postcode: "12345",
-    courier: "Royal Mail",
-  },
-  {
-    id: 2,
-    contents: "Electronics",
-    dateShipped: new Date().toISOString(),
-    status: "not-shipped",
-    name: "Jane Doe",
-    addressLine1: "456 Fake St",
-    addressLine2: "",
-    city: "Springfield",
-    postcode: "12345",
-    courier: "UPS",
-  },
-];
+import { db } from "../../db";
+import { shipmentsTable } from "../../db/schema";
+import { shipmentSchema, type Shipment } from "../../schemas/shipment";
+import { eq } from "drizzle-orm";
 
 export const shipmentsRoutes = new Hono<AuthedRoutes>()
   .get("/:id{\\d+}", async (c) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const id = parseInt(c.req.param("id"));
-    const shipment = shipments.find((s) => s.id === id);
+
+    const [shipment] = await db
+      .select()
+      .from(shipmentsTable)
+      .where(eq(shipmentsTable.id, id));
 
     if (!shipment) {
       return c.notFound();
@@ -68,8 +23,7 @@ export const shipmentsRoutes = new Hono<AuthedRoutes>()
   })
   .use(requireAuth)
   .get("/", async (c) => {
-    console.log(c.get("user"));
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const shipments = await db.select().from(shipmentsTable);
     return c.json(shipments);
   })
   .post(
@@ -81,34 +35,49 @@ export const shipmentsRoutes = new Hono<AuthedRoutes>()
       })
     ),
     async (c) => {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
       const shipment = c.req.valid("json");
-      const id = shipments.length + 1;
-      shipments.push({ ...shipment, id });
-      return c.json({ ...shipment, id });
+
+      const [lastInsert] = await db
+        .insert(shipmentsTable)
+        .values({ ...shipment, userId: c.get("user")! })
+        .returning();
+
+      return c.json({ ...lastInsert });
     }
   )
-  .put("/", zValidator("json", shipmentSchema), (c) => {
+  .put("/", zValidator("json", shipmentSchema), async (c) => {
     const shipment = c.req.valid("json");
-    const index = shipments.findIndex((s) => s.id === shipment.id);
 
-    if (index === -1) {
+    const [existing] = await db
+      .select()
+      .from(shipmentsTable)
+      .where(eq(shipmentsTable.id, shipment.id));
+
+    if (!existing) {
       return c.notFound();
     }
 
-    shipments[index] = shipment;
+    const [updated] = await db
+      .update(shipmentsTable)
+      .set(shipment)
+      .where(eq(shipmentsTable.id, shipment.id))
+      .returning();
 
-    return c.json({ shipment });
+    return c.json({ shipment: updated });
   })
-  .delete("/:id{\\d+}", (c) => {
+  .delete("/:id{\\d+}", async (c) => {
     const id = parseInt(c.req.param("id"));
-    const index = shipments.findIndex((s) => s.id === id);
 
-    if (index === -1) {
+    const [existing] = await db
+      .select()
+      .from(shipmentsTable)
+      .where(eq(shipmentsTable.id, id));
+
+    if (!existing) {
       return c.notFound();
     }
 
-    shipments.splice(index, 1);
+    await db.delete(shipmentsTable).where(eq(shipmentsTable.id, id));
 
     return c.json({ id });
   });

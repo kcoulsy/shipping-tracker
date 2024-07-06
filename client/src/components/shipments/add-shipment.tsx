@@ -25,7 +25,11 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { InsertShipment, insertShipmentSchema } from "@server/api/v1/shipments";
+import {
+  InsertShipment,
+  insertShipmentSchema,
+  Shipment,
+} from "@server/schemas/shipment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -38,10 +42,10 @@ import {
 import { useCreateShipment } from "@/lib/api";
 import { useState } from "react";
 
-export function AddShipment() {
+export function AddShipment({ shipment }: { shipment?: Shipment }) {
   const [isOpen, setIsOpen] = useState(false);
   const form = useForm<InsertShipment>({
-    defaultValues: {
+    defaultValues: shipment ?? {
       dateShipped: "",
       courier: "",
       name: "",
