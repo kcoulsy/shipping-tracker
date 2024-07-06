@@ -1,7 +1,8 @@
 import { type AppType } from "@server/api/index";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { hc } from "hono/client";
 import { useAccessToken } from "./auth";
+import { InsertShipment, Shipment } from "@server/api/v1/shipments";
 
 export const client = hc<AppType>("http://localhost:5173/api");
 
@@ -28,7 +29,6 @@ export function useGetShipments() {
 export function useGetShipment(id?: string) {
   const { data: accessToken } = useAccessToken();
 
-  console.log(id);
   return useQuery({
     queryKey: ["shipment", id],
     enabled: id !== undefined,
@@ -48,5 +48,36 @@ export function useGetShipment(id?: string) {
           }
         )
         .then((response) => response.json()),
+  });
+}
+
+export function useCreateShipment({ onSuccess }: { onSuccess?: () => void }) {
+  const { data: accessToken } = useAccessToken();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["createShipment"],
+    mutationFn: async (shipment: InsertShipment) => {
+      await queryClient.ensureQueryData({ queryKey: ["shipments"] });
+      return client.v1.shipments
+        .$post(
+          {
+            json: shipment,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => response.json());
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.setQueryData(["shipments"], (old: Shipment[]) => {
+        return [...old, data];
+      });
+      onSuccess?.();
+    },
   });
 }

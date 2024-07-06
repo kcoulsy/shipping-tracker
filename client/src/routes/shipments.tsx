@@ -25,9 +25,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { AddShipment } from "@/components/shipments/add-shipment";
 import { Skeleton } from "@/components/ui/skeleton";
+import { format } from "date-fns";
+import { StatusBadge } from "@/components/shipments/status-badge";
 
 export const Route = createFileRoute("/shipments")({
   component: Shipments,
@@ -92,9 +93,11 @@ function Shipments() {
                   <TableCell>{shipment.contents}</TableCell>
                   <TableCell>{shipment.name}</TableCell>
                   <TableCell>{shipment.courier}</TableCell>
-                  <TableCell>{shipment.dateShipped}</TableCell>
+                  <TableCell>
+                    {format(shipment.dateShipped, "do MMMM yyyy")}
+                  </TableCell>
                   <TableCell className="text-right">
-                    <Badge variant="secondary">{shipment.status}</Badge>
+                    <StatusBadge status={shipment.status} />
                   </TableCell>
                 </TableRow>
               ))}

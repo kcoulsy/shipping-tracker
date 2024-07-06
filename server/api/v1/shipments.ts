@@ -5,23 +5,26 @@ import { requireAuth, type AuthedRoutes } from "../../middleware/auth";
 
 const shipmentSchema = z.object({
   id: z.number(),
-  contents: z.string(),
-  dateShipped: z.string(),
+  contents: z.string().min(1, "Required"),
+  dateShipped: z.string().min(1, "Required"),
   status: z.union([
     z.literal("not-shipped"),
     z.literal("shipped"),
     z.literal("in-transit"),
     z.literal("delivered"),
   ]),
-  name: z.string(),
-  addressLine1: z.string(),
-  addressLine2: z.string(),
-  city: z.string(),
-  postcode: z.string(),
-  courier: z.string(),
-  trackingNumber: z.string(),
+  name: z.string().min(1, "Required"),
+  addressLine1: z.string().min(1, "Required"),
+  addressLine2: z.string().min(1, "Required"),
+  city: z.string().min(1, "Required"),
+  postcode: z.string().min(1, "Required"),
+  courier: z.string().min(1, "Required"),
 });
 
+export const insertShipmentSchema = shipmentSchema.omit({
+  id: true,
+});
+export type InsertShipment = z.infer<typeof insertShipmentSchema>;
 export type Shipment = z.infer<typeof shipmentSchema>;
 
 const shipments: Shipment[] = [
@@ -36,7 +39,6 @@ const shipments: Shipment[] = [
     city: "Springfield",
     postcode: "12345",
     courier: "Royal Mail",
-    trackingNumber: "ABC123",
   },
   {
     id: 2,
@@ -49,17 +51,10 @@ const shipments: Shipment[] = [
     city: "Springfield",
     postcode: "12345",
     courier: "UPS",
-    trackingNumber: "",
   },
 ];
 
 export const shipmentsRoutes = new Hono<AuthedRoutes>()
-  .use(requireAuth)
-  .get("/", async (c) => {
-    console.log(c.get("user"));
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return c.json(shipments);
-  })
   .get("/:id{\\d+}", async (c) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const id = parseInt(c.req.param("id"));
@@ -71,6 +66,12 @@ export const shipmentsRoutes = new Hono<AuthedRoutes>()
 
     return c.json(shipment);
   })
+  .use(requireAuth)
+  .get("/", async (c) => {
+    console.log(c.get("user"));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return c.json(shipments);
+  })
   .post(
     "/",
     zValidator(
@@ -79,11 +80,12 @@ export const shipmentsRoutes = new Hono<AuthedRoutes>()
         id: true,
       })
     ),
-    (c) => {
+    async (c) => {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       const shipment = c.req.valid("json");
       const id = shipments.length + 1;
       shipments.push({ ...shipment, id });
-      return c.json({ id });
+      return c.json({ ...shipment, id });
     }
   )
   .put("/", zValidator("json", shipmentSchema), (c) => {

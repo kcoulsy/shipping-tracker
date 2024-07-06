@@ -25,7 +25,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { insertShipmentSchema } from "@server/api/v1/shipments";
+import { InsertShipment, insertShipmentSchema } from "@server/api/v1/shipments";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -35,9 +35,12 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { useCreateShipment } from "@/lib/api";
+import { useState } from "react";
 
 export function AddShipment() {
-  const form = useForm({
+  const [isOpen, setIsOpen] = useState(false);
+  const form = useForm<InsertShipment>({
     defaultValues: {
       dateShipped: "",
       courier: "",
@@ -47,21 +50,26 @@ export function AddShipment() {
       city: "",
       postcode: "",
       contents: "",
-      status: "",
+      status: "not-shipped",
     },
     resolver: zodResolver(insertShipmentSchema),
+  });
+
+  const mutation = useCreateShipment({
+    onSuccess: () => {
+      form.reset();
+      setIsOpen(false);
+    },
   });
 
   const date = form.watch("dateShipped");
 
   const onSubmit = form.handleSubmit((data) => {
-    console.log("submit", data);
+    mutation.mutate(data);
   });
 
-  console.log(form.formState.errors);
-
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
         <Button>Add Shipment</Button>
       </DialogTrigger>
@@ -159,7 +167,7 @@ export function AddShipment() {
                         <FormLabel>Status</FormLabel>
                         <FormControl>
                           <Select
-                            onValueChange={(value) =>
+                            onValueChange={(value: InsertShipment["status"]) =>
                               form.setValue("status", value)
                             }
                             value={field.value}
@@ -274,7 +282,11 @@ export function AddShipment() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" variant="default">
+              <Button
+                type="submit"
+                variant="default"
+                isPending={mutation.isPending}
+              >
                 Add
               </Button>
             </DialogFooter>
