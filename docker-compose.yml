@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_BASE_URL: ${VITE_BASE_URL}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_LOGTO_ENDPOINT: ${VITE_LOGTO_ENDPOINT}
+        VITE_LOGTO_APPID: ${VITE_LOGTO_APPID}
+        POSTGRES_URL: ${POSTGRES_URL}
+    environment:
+      - VITE_BASE_URL=${VITE_BASE_URL}
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+      - VITE_LOGTO_ENDPOINT=${VITE_LOGTO_ENDPOINT}
+      - VITE_LOGTO_APPID=${VITE_LOGTO_APPID}
+      - POSTGRES_URL=postgres://yourusername:yourpassword@db:5432/yourdatabase
+    ports:
+      - "3000:3000"
+
+  db:
+    image: postgres:latest
+    container_name: shippy_pg
+    environment:
+      POSTGRES_USER: yourusername
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: yourdatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - shippy_pg:/var/lib/postgresql/data
+
+volumes:
+  shippy_pg:

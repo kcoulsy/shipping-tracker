@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { requireAuth, type AuthedRoutes } from "../../middleware/auth";
 import { db } from "../../db";
 import { shipmentsTable } from "../../db/schema";
-import { shipmentSchema, type Shipment } from "../../schemas/shipment";
+import { shipmentSchema } from "../../schemas/shipment";
 import { eq } from "drizzle-orm";
 
 export const shipmentsRoutes = new Hono<AuthedRoutes>()

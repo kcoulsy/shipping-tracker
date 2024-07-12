@@ -9,7 +9,7 @@ export function SignIn() {
 
   return (
     <button
-      onClick={() => signIn(`${import.meta.env.VITE_BASE_URL}/auth/callback"`)}
+      onClick={() => signIn(`${import.meta.env.VITE_BASE_URL}/auth/callback`)}
     >
       Courier Sign In
     </button>

@@ -15,8 +15,8 @@ bun run server/index.ts
 This project was created using `bun init` in bun v1.0.29. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
 
 
-Start a local postgres db
+Start the project locally
 
 ```bash
-docker-compose -f docker-compose.dev.yml up -d
+docker-compose  up -d
 ```
