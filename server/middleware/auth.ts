@@ -17,7 +17,7 @@ export const requireAuth = createMiddleware(
         {
           issuer: "https://auth.coulsy.dev/oidc",
           // TODO: This should be configurable
-          audience: "http://localhost:3000",
+          audience: import.meta.env.VITE_API_BASE_URL!,
         }
       );
       const { sub } = payload;
