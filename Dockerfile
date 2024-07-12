@@ -6,6 +6,7 @@ WORKDIR /app
 COPY ./client /app/client
 COPY ./server /app/server
 COPY package.json /app
+COPY drizzle /app/drizzle
 COPY bun.lockb /app
 COPY drizzle.config.ts /app
 copy tsconfig.json /app
@@ -24,8 +25,8 @@ RUN echo "VITE_BASE_URL=$VITE_BASE_URL" >> /app/client/.env && \
     echo "VITE_LOGTO_APPID=$VITE_LOGTO_APPID" >> /app/client/.env && \
     echo "POSTGRES_URL=$POSTGRES_URL" >> /app/.env
 
-RUN bun install --frozen-lockfile --production
-RUN cd /app/client && bun install --frozen-lockfile --production && bun run build
+RUN bun install
+RUN cd /app/client && bun install && bun run build
 
 # Expose port (optional, based on your application's needs)
 EXPOSE 3000
